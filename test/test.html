@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>sexytime test</title>
+  <style type="text/css">
+    body {
+      font-family:Helvetica;
+    }
+
+    div {
+      background:#eee;
+      padding:10px 20px;
+      margin-bottom:10px;
+      border-radius:3px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>sextime.js</h1>
+
+  <div id="test01">
+    <h3>1. Simple sexytime w/ auto-update</h3>
+    <p>2012-10-01T03:19:00+0200</p>
+    <p><code>$('#test01 time').sexytime()</code></p>
+    <p><time datetime="2012-10-01T03:19:00+0200"></time></p>
+  </div>
+
+  <div id="test02">
+    <h3>2. Absolute time</h3>
+    <p>2012-10-01T03:19:00+0200</p>
+    <p><code>$('#test03 time').sexytime({ type:'absolute' })</code></p>
+    <p><time datetime="2012-10-01T03:19:00+0200"></time></p>
+  </div>
+
+  <div id="test03">
+    <h3>3. Custom Callback each 60s</h3>
+    <p>2012-10-01T03:19:00+0200</p>
+    <p><code>$('#test03 time').sexytime({ callback : function($domElm, options, momentElm, momentNow) { $domElm.html('60s interval: ' + momentElm.fromNow()); $domElm.effect('highlight', {}, 3000); }})</code></p>
+    <p><time datetime="2012-10-01T03:19:00+0200"></time></p>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.0/moment.min.js"></script>
+  <script src="../sexytime.js"></script>
+  <script>
+    $('document').ready(function(){
+
+      $('#test01 time').sexytime();
+      $('#test02 time').sexytime({ type:'absolute' });
+      $('#test03 time').sexytime({ callback : function($domElm, options, momentElm, momentNow) { $domElm.html('60s interval: ' + momentElm.fromNow()); $domElm.effect('highlight', {}, 3000); }});
+
+    });
+  </script>
+</body>
+</html>
