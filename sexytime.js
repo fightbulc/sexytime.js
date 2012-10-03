@@ -80,7 +80,7 @@
   {
     var $that = $(this);
 
-    options = setOptions(customOptions);
+    var options = setOptions(customOptions);
 
     var momentNowObject = moment();
 
