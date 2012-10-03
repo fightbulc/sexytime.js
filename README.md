@@ -16,10 +16,11 @@
 ### What is sexytime.js?
 Simply put it helps to sexify your dates on your website.
 
-It finds dates based on a given selector, formats them or passes it on to a custom callback.
+It finds dates based on a given selector, formats them or passes it on to a custom callback.  
 Latter enables you to manipulate your DOM based on your needs.
 
-It can update your dates on a given interval. Also it can run in multiple instances based on your selectors.
+It can update your dates on a given interval. It runs in multiple instances based on your selectors.  
+Further, it uses realtime selectors rather than cached once which results in live DOM update support.
 
 On top of that you get the complete power from [Moment.js](http://momentjs.com). Sweet!
 
