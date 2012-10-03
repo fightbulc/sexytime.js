@@ -42,7 +42,7 @@ Sample HTML bootstrap get your sexytime going:
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.0/moment.min.js"></script>
-  <script src="sexytime.js"></script>
+  <script src="sexytime.min.js"></script>
 
 </body>
 </html>
