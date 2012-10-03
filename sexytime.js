@@ -2,17 +2,28 @@
 {
   /**
 
-   Sexytime transforms a given time string the way you need it.
-   You can enable sexytime to do this in a given interval with the
-   possibility to adjust datetime's format and representation.
-   In case that you need total flexibility you can pass a callback
-   function which passes through everything you might need to work
-   on your datetime element.
+   What is sexytime.js?
 
-   Sexytime uses moment.js and runs as a jquery plugin.
+   Simply put it helps to sexify your dates on your website.
 
+   It finds dates based on a given selector, formats them or passes
+   it on to a custom callback. Latter enables you to manipulate your
+   DOM based on your needs.
+
+   It can update your dates on a given interval.
+   Also it can run in multiple instances based on your selectors.
+
+   On top of that you get the complete power from Moment.js. Sweet!
+
+   Any dependencies?
+
+   Sexytime.js is based on Moment.js and comes as jQuery plugin.
+
+   https://github.com/fightbulc/sexytime.js
    http://momentjs.com/
    http://jquery.com/
+
+   ----------------------------------------------
 
    Dead simple example:
    $('time').sexytime()   // <time datetime="2012-09-11T10:00:00"></time>
@@ -20,25 +31,28 @@
    ----------------------------------------------
 
    By default time will be presented by "fromNow()".
-   If you don't want that name your type "absolute" and
-   choose a format:
-   $('time').sexytime({type: 'absolute', format: 'YYYY-MM-DD'})
+   If you don't want that set your output to "absolute" and choose a format:
+
+   $('time').sexytime({
+      output: 'absolute',
+      formatAbsolute: 'YYYY-MM-DD'
+   })
 
    ----------------------------------------------
 
    All possible options:
    $('time').sexytime({
-      source: 'iso8601' || 'unix'          // default = iso8601 (2012-09-24T17:20:00)
 
-      type: 'relative' || 'absolute',     // default = relative
+      source: 'iso8601' || 'unix'                 // default = iso8601 (2012-09-24T17:20:00)
+      output: 'relative' || 'absolute',           // default = relative
 
-      update: true || false               // default = true
+      update: true || false                       // default = true
+      updateOnSero: true || false                 // default = true
+      updateInterval: 60                          // default = 60s
 
-      intervalSeconds: 60                 // default = 60
+      formatAbsolute: 'dd, DD.MM.YY / HH:mm',     // default = dd, DD.MM.YY / HH:mm
 
-      format: 'dd, DD.MM.YY / HH:mm',     // default = dd, DD.MM.YY / HH:mm
-
-      relativeTime: {
+      formatRelative: {
         future: "in %s",
         past: "%s ago",
         s: "seconds",
@@ -55,72 +69,67 @@
       },
 
       callback: function($domElm, options, momentElm, momentNow) {}
+
     })
 
    */
 
     // ############################################
 
-  $.fn.sexytime = function(options)
+  $.fn.sexytime = function(customOptions)
   {
     var $that = $(this);
 
-    options = setOptions(options);
+    options = setOptions(customOptions);
 
     var momentNowObject = moment();
 
     $that.each(function() { handleElement($(this), options, momentNowObject) });
 
-    if(options.update === true)
+    if($that.length == 0 && options.updateOnSero !== true)
     {
-      setTimeout(function() { $that.sexytime(options) }, options.intervalSeconds*1000);
+      options.update = false;
+    }
+
+    if(options.update !== false)
+    {
+      setTimeout(function() { $($that.selector).sexytime(options) }, options.updateInterval*1000);
     }
   }
 
   // ############################################
 
-  setOptions = function(options)
+  setOptions = function(customOptions)
   {
-    options = options || {};
-    options.hasCallback = false;
+    // default options
+    options = {
 
-    if(typeof options.update === 'undefined')
-    {
-      options.update = true;
-    }
+      hasCallback: false,
 
-    if(typeof options.intervalSeconds === 'undefined')
-    {
-      options.intervalSeconds = 60;
-    }
+      source: 'iso8601',
+      output: 'relative',
 
-    if(typeof options.source === 'undefined')
-    {
-      options.source = 'iso8601';
-    }
+      formatRelative: moment.relativeTime,
+      formatAbsolute: 'dd, DD.MM.YY / HH:mm',
 
-    if(typeof options.type === 'undefined')
-    {
-      options.type = 'relative';
-    }
+      update: true,
+      updateOnSero: true,
+      updateInterval: 60
 
-    if(options.type == 'absolute')
+    };
+
+    // merge options
+    $.extend(options, customOptions);
+
+    // forced options
+    if(options.output == 'absolute')
     {
       options.update = false;
     }
 
     if(typeof options.relativeTime === 'object')
     {
-      moment.relativeTime = options.relativeTime;
-    }
-    else
-    {
-      options.relativeTime = moment.relativeTime;
-    }
-
-    if(typeof options.format === 'undefined')
-    {
-      options.format = 'dd, DD.MM.YY / HH:mm';
+      moment.relativeTime = options.formatRelative;
     }
 
     if(typeof options.callback === 'function')
@@ -142,9 +151,9 @@
     var momentElmObject = options.source == 'iso8601' ? moment(dateString) : moment.unix(dateString);
 
     // default behaviour in case we have no callback
-    if(options.hasCallback === false)
+    if(options.hasCallback !== true)
     {
-      var renderedDate = options.type === 'relative' ? momentElmObject.fromNow() : momentElmObject.format(options.format);
+      var renderedDate = options.output === 'relative' ? momentElmObject.fromNow() : momentElmObject.format(options.formatAbsolute);
       $domElm.html(renderedDate);
 
       return;
