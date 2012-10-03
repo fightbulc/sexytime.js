@@ -6,7 +6,7 @@
  /(.|.)\   /___) ___ ( \ / ) | | (_   _) |    \| ___ |   |  |/___)
  \ ).( /  |___ | ____|) X (| |_| | | |_| | | | | ____| _ |  |___ |
  '( v )`  (___/|_____|_/ \_)\__  |  \__)_|_|_|_|_____)|_||  (___/
-   \|/                      (____/                     (___/   
+   \|/                      (____/                     (___/
    (|)
    '-`
 </pre>
@@ -16,7 +16,7 @@
 ### What is sexytime.js?
 Simply put it helps to sexify your dates on your website.
 
-It finds dates based on a given selector, formats them or passes it on to a custom callback.  
+It finds dates based on a given selector, formats them or passes it on to a custom callback.
 Latter enables you to manipulate your DOM based on your needs.
 
 It can update your dates on a given interval. Also it can run in multiple instances based on your selectors.
@@ -62,7 +62,7 @@ DOM Result:
 ### 2. Render as absolute date
 ```js
 $('time').sexytime({
-   type: 'absolute'
+   output: 'absolute'
 })
 ```
 DOM Result:
@@ -75,16 +75,15 @@ DOM Result:
 This example requires [jQueryUI](http://jqueryui.com).
 ```js
 $('time').sexytime({
-   intervalSeconds: 60,
+   updateInterval: 60,
 
    callback : function($domElm, options, momentElm, momentNow)
    {
       // update date
       $domElm.html('60s interval: ' + momentElm.fromNow());
-      
+
       // highlight $domElm for 3 seconds
       $domElm.effect('highlight', {}, 3000);
-      
    }
 })
 ```
@@ -98,34 +97,35 @@ DOM Result:
 # Possible options
 ```js
 $('time').sexytime({
-   source: 'iso8601' || 'unix'          // default = iso8601 (2012-09-24T17:20:00)
 
-   type: 'relative' || 'absolute',     // default = relative
+  source: 'iso8601' || 'unix'                 // default = iso8601 (2012-09-24T17:20:00)
+  output: 'relative' || 'absolute',           // default = relative
 
-   update: true || false               // default = false
+  update: true || false                       // default = true
+  updateOnSero: true || false                 // default = true
+  updateInterval: 60                          // default = 60s
 
-   intervalSeconds: 60                 // default = 60
+  formatAbsolute: 'dd, DD.MM.YY / HH:mm',     // default = dd, DD.MM.YY / HH:mm
 
-   format: 'dd, DD.MM.YY / HH:mm',     // default = dd, DD.MM.YY / HH:mm
+  formatRelative: {
+    future: "in %s",
+    past: "%s ago",
+    s: "seconds",
+    m: "a minute",
+    mm: "%d minutes",
+    h: "an hour",
+    hh: "%d hours",
+    d: "a day",
+    dd: "%d days",
+    M: "a month",
+    MM: "%d months",
+    y: "a year",
+    yy: "%d years"
+  },
 
-   relativeTime: {
-     future: "in %s",
-     past: "%s ago",
-     s: "seconds",
-     m: "a minute",
-     mm: "%d minutes",
-     h: "an hour",
-     hh: "%d hours",
-     d: "a day",
-     dd: "%d days",
-     M: "a month",
-     MM: "%d months",
-     y: "a year",
-     yy: "%d years"
-   },
+  callback: function($domElm, options, momentElm, momentNow) {}
 
-   callback: function($domElm, options, momentElm, momentNow) {}
- })
+})
 ```
 
 # Roadmap
