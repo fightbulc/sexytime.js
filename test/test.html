@@ -39,7 +39,7 @@
   <div id="test03">
     <h3>3. Custom Callback each 60s</h3>
     <p>2012-10-01T03:19:00+0200</p>
-    <p><code>$('#test03 time').sexytime({ callback : function($domElm, options, momentElm, momentNow) { $domElm.html('60s interval: ' + momentElm.fromNow()); $domElm.effect('highlight', {}, 3000); }})</code></p>
+    <p><code>$('#test03 time').sexytime({ updateInterval:60, callback : function($domElm, options, momentElm, momentNow) { $domElm.html('60s interval: ' + momentElm.fromNow()); $domElm.effect('highlight', {}, 3000); }})</code></p>
     <p><time datetime="2015-05-15T12:00:00+0200"></time></p>
     <p><time datetime="2012-10-01T03:19:00+0200"></time></p>
   </div>
@@ -47,13 +47,23 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.0/moment.min.js"></script>
-  <script src="//raw.github.com/fightbulc/sexytime.js/master/sexytime.js"></script>
+  <script src="../sexytime.js"></script>
   <script>
     $('document').ready(function(){
 
       $('#test01 time').sexytime();
-      $('#test02 time').sexytime({ type:'absolute' });
-      $('#test03 time').sexytime({ callback : function($domElm, options, momentElm, momentNow) { $domElm.html('60s interval: ' + momentElm.fromNow()); $domElm.effect('highlight', {}, 3000); }});
+
+      $('#test02 time').sexytime({ output:'absolute' });
+
+      $('#test03 time').sexytime({
+        updateInterval:60,
+
+        callback : function($domElm, options, momentElm, momentNow)
+        {
+          $domElm.html('60s interval: ' + momentElm.fromNow());
+          $domElm.effect('highlight', {}, 3000);
+        }
+      });
 
     });
   </script>
