@@ -32,7 +32,7 @@
 
       type: 'relative' || 'absolute',     // default = relative
 
-      update: true || false               // default = false
+      update: true || false               // default = true
 
       intervalSeconds: 60                 // default = 60
 
