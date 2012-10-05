@@ -29,7 +29,7 @@ Sexytime.js is based on [Moment.js](http://momentjs.com) and comes as [jQuery](h
 
 
 # Setup
-Sample HTML bootstrap get your sexytime going:
+Sample HTML bootstrap to get your sexytime going:
 ```html
 
 <!DOCTYPE html>
