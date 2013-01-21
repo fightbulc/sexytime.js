@@ -148,6 +148,7 @@
     // increse time if options absolute and update are enabled
     if(options.update && options.output == 'absolute')
     {
+      options.source = 'unix'; // since we'll work with unix time lets force it
       $domElm.attr('datetime', momentElmObject.unix() + options.updateInterval);
     }
 
