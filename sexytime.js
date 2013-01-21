@@ -122,11 +122,6 @@
     $.extend(options, customOptions);
 
     // forced options
-    if(options.output == 'absolute')
-    {
-      options.update = false;
-    }
-
     if(typeof options.relativeTime === 'object')
     {
       moment.relativeTime = options.formatRelative;
@@ -149,6 +144,12 @@
 
     // parse and create moment object
     var momentElmObject = options.source == 'iso8601' ? moment(dateString) : moment.unix(dateString);
+
+    // increse time if options absolute and update are enabled
+    if(options.update && options.output == 'absolute')
+    {
+      $domElm.attr('datetime', momentElmObject.unix() + options.updateInterval);
+    }
 
     // default behaviour in case we have no callback
     if(options.hasCallback !== true)
